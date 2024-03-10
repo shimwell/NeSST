@@ -5,9 +5,6 @@
 # Standard libraries
 import warnings
 import numpy as np
-from pathlib import Path
-from scipy.interpolate import interp1d
-from scipy.interpolate import interp2d
 from scipy.optimize import curve_fit
 # NeSST libraries
 from NeSST.constants import *
@@ -24,8 +21,8 @@ frac_T_default = 0.5
 # Note double scatter model assumes isotropic areal density for scattered neutrons - this is usually a poor approx.
 DS_switch = False
 
-# Energy units - MeV
-# Temperature units - keV
+# Energy units - eV
+# Temperature units - eV
 # Velocity units - m/s
 
 ##########################################
@@ -82,10 +79,7 @@ def DTprimspecmoments(Tion):
 
     mean_shift = a1*Tion**(0.6666666666)/(1.0+a2*Tion**a3)+a4*Tion
 
-    # keV to MeV
-    mean_shift /= 1e3
-
-    mean = 14.021 + mean_shift
+    mean = 14.021e6 + mean_shift
 
     # Variance calculation
     omega0 = 177.259
@@ -115,10 +109,12 @@ def DDprimspecmoments(Tion):
 
     mean_shift = a1*Tion**(0.6666666666)/(1.0+a2*Tion**a3)+a4*Tion
 
-    # keV to MeV
-    mean_shift /= 1e3
+    print('dd', mean_shift)
 
-    mean = 2.4495 + mean_shift
+    # keV to MeV
+    # mean_shift /= 1e3
+
+    mean = 2.4495e6 + mean_shift
 
     # Variance calculation
     omega0 = 82.542

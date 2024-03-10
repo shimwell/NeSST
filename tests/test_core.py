@@ -5,17 +5,17 @@ import NeSST as nst
 def test_DTprimspecmoments_mean():
     # checks the mean value of the neutron emitted by DT fusion
 
-    DTmean, _ = nst.DTprimspecmoments(Tion=5.0)  # units KeV
+    DTmean, _ = nst.DTprimspecmoments(Tion=5.0e3)  # units KeV
 
-    assert DTmean == pytest.approx(14.1, abs=0.1)  # units MeV
+    assert DTmean == pytest.approx(14.1e6, abs=0.1e6)  # units MeV
 
 
 def test_DDprimspecmoments_mean():
     # checks the mean value of the neutron emitted by DD fusion
 
-    DTmean, _ = nst.DDprimspecmoments(Tion=5.0)  # units KeV
+    DTmean, _ = nst.DDprimspecmoments(Tion=5.0e3)  # units KeV
 
-    assert DTmean == pytest.approx(2.5, abs=0.1)  # units MeV
+    assert DTmean == pytest.approx(2.5e6, abs=0.1e6)  # units MeV
 
 def test_DDprimspecmoments_mean_with_tion():
     # checks the energy of the neutron increases with ion temperature
