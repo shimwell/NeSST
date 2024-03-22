@@ -111,7 +111,7 @@ def mean_shift(Tion: float, reaction: str) -> float:
 def DTprimspecmoments(Tion):
     # Mean calculation
 
-    mean = 14.021 + mean_shift(Tion=Tion, reaction='DD')
+    mean = 14.021 + mean_shift(Tion=Tion, reaction='DT')
 
     # Variance calculation
     omega0 = 177.259
