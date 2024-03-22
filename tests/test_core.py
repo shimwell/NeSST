@@ -34,3 +34,14 @@ def test_DTprimspecmoments_mean_with_tion():
     DTmean_hot, _ = nst.DTprimspecmoments(Tion=10.0)  # units KeV
 
     assert DTmean_cold < DTmean_hot  # units MeV
+
+
+def test_mean_shift():
+    dd_shift = nst.mean_shift(Tion=10, reaction='DD')
+    assert dd_shift == pytest.approx(0.0329547465212646)  # units of MeV
+    
+    dt_shift = nst.mean_shift(Tion=10, reaction='DT')
+    assert dt_shift == pytest.approx(0.03484386303773310)  # units of MeV
+
+    with pytest.raises(Exception):
+        nst.mean_shift(10, 'unknown reaction')

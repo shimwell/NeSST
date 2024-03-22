@@ -71,21 +71,47 @@ def yield_from_dt_yield_ratio(reaction,dt_yield,Ti,frac_D=frac_D_default,frac_T=
 # Ballabio fits, see Table III of L. Ballabio et al 1998 Nucl. Fusion 38 1723 #
 ###############################################################################
 
-# Returns the mean and variance based on Ballabio
-# Tion in keV
-def DTprimspecmoments(Tion):
-    # Mean calculation
-    a1 = 5.30509
-    a2 = 2.4736e-3
-    a3 = 1.84
-    a4 = 1.3818
+def mean_shift(Tion: float, reaction: str) -> float:
+    """Calculates the change to the mean energy of the neutron emmitted during 
+    DD or DT fusion due to temperature of the inclident ions.
+
+    Args:
+        Tion (float): the temeprature of the ions in KeV
+        reaction (str): the two isotope that fuse, can be either 'DD' or 'DT'
+
+    Raises:
+        ValueError: _description_
+
+    Returns:
+        float: the delta energyshift of the neutron energy in MeV
+    """
+    if reaction == 'DD':
+        a1 = 4.69515
+        a2 = -0.040729
+        a3 = 0.47
+        a4 = 0.81844
+    elif reaction == 'DT':
+        a1 = 5.30509
+        a2 = 2.4736e-3
+        a3 = 1.84
+        a4 = 1.3818
+    else:
+        raise ValueError(f'reaction must be either "DD" or "DT" not {reaction}')
 
     mean_shift = a1*Tion**(0.6666666666)/(1.0+a2*Tion**a3)+a4*Tion
 
     # keV to MeV
     mean_shift /= 1e3
 
-    mean = 14.021 + mean_shift
+    return mean_shift
+
+
+# Returns the mean and variance based on Ballabio
+# Tion in keV
+def DTprimspecmoments(Tion):
+    # Mean calculation
+
+    mean = 14.021 + mean_shift(Tion=Tion, reaction='DD')
 
     # Variance calculation
     omega0 = 177.259
@@ -107,18 +133,8 @@ def DTprimspecmoments(Tion):
 # Returns the mean and variance based on Ballabio
 # Tion in keV
 def DDprimspecmoments(Tion):
-    # Mean calculation
-    a1 = 4.69515
-    a2 = -0.040729
-    a3 = 0.47
-    a4 = 0.81844
 
-    mean_shift = a1*Tion**(0.6666666666)/(1.0+a2*Tion**a3)+a4*Tion
-
-    # keV to MeV
-    mean_shift /= 1e3
-
-    mean = 2.4495 + mean_shift
+    mean = 2.4495 + mean_shift(Tion=Tion, reaction='DD')
 
     # Variance calculation
     omega0 = 82.542
