@@ -80,7 +80,7 @@ def mean_shift(Tion: float, reaction: str) -> float:
         reaction (str): the two isotope that fuse, can be either 'DD' or 'DT'
 
     Raises:
-        ValueError: _description_
+        ValueError: if the reaction is not 'DD' or 'DT' then a ValueError is raised
 
     Returns:
         float: the delta energyshift of the neutron energy in MeV
