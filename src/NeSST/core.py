@@ -71,9 +71,10 @@ def yield_from_dt_yield_ratio(reaction,dt_yield,Ti,frac_D=frac_D_default,frac_T=
 # Ballabio fits, see Table III of L. Ballabio et al 1998 Nucl. Fusion 38 1723 #
 ###############################################################################
 
-def mean_shift(Tion: float, reaction: str) -> float:
-    """Calculates the change to the mean energy of the neutron emmitted during 
-    DD or DT fusion due to temperature of the inclident ions.
+def mean_neutron_energy(Tion: float, reaction: str) -> float:
+    """Calculates the mean energy of the neutron emmitted during DD or DT 
+    fusion accounting for temperature of the inclident ions. Based on Ballabio
+    fits, see Table III of L. Ballabio et al 1998 Nucl. Fusion 38 1723
 
     Args:
         Tion (float): the temeprature of the ions in KeV
@@ -83,18 +84,20 @@ def mean_shift(Tion: float, reaction: str) -> float:
         ValueError: if the reaction is not 'DD' or 'DT' then a ValueError is raised
 
     Returns:
-        float: the delta energyshift of the neutron energy in MeV
+        float: the mean neutron energy in MeV
     """
     if reaction == 'DD':
         a1 = 4.69515
         a2 = -0.040729
         a3 = 0.47
         a4 = 0.81844
+        mean = 2.4495  # in units of MeV
     elif reaction == 'DT':
         a1 = 5.30509
         a2 = 2.4736e-3
         a3 = 1.84
         a4 = 1.3818
+        mean = 14.021  # in units of MeV
     else:
         raise ValueError(f'reaction must be either "DD" or "DT" not {reaction}')
 
@@ -103,7 +106,7 @@ def mean_shift(Tion: float, reaction: str) -> float:
     # keV to MeV
     mean_shift /= 1e3
 
-    return mean_shift
+    return mean + mean_shift
 
 
 # Returns the mean and variance based on Ballabio
@@ -111,7 +114,7 @@ def mean_shift(Tion: float, reaction: str) -> float:
 def DTprimspecmoments(Tion):
     # Mean calculation
 
-    mean = 14.021 + mean_shift(Tion=Tion, reaction='DT')
+    mean = mean_neutron_energy(Tion=Tion, reaction='DT')
 
     # Variance calculation
     omega0 = 177.259
@@ -134,7 +137,7 @@ def DTprimspecmoments(Tion):
 # Tion in keV
 def DDprimspecmoments(Tion):
 
-    mean = 2.4495 + mean_shift(Tion=Tion, reaction='DD')
+    mean = mean_neutron_energy(Tion=Tion, reaction='DD')
 
     # Variance calculation
     omega0 = 82.542
