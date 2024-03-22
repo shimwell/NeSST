@@ -25,6 +25,7 @@ def test_DDprimspecmoments_mean_with_tion():
 
     assert DDmean_cold < DDmean_hot  # units MeV
 
+
 def test_DTprimspecmoments_mean_with_tion():
     # checks the energy of the neutron increases with ion temperature
 

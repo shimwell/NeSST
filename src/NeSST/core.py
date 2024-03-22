@@ -99,7 +99,7 @@ def DTprimspecmoments(Tion):
     return mean, variance
 
 # Returns the mean and variance based on Ballabio
-# Tion in keV
+# Tion in eV
 def DDprimspecmoments(Tion):
     # Mean calculation
     a1 = 4.69515
@@ -109,10 +109,7 @@ def DDprimspecmoments(Tion):
 
     mean_shift = a1*Tion**(0.6666666666)/(1.0+a2*Tion**a3)+a4*Tion
 
-    print('dd', mean_shift)
-
-    # keV to MeV
-    # mean_shift /= 1e3
+    print('dd mean_shift', mean_shift)
 
     mean = 2.4495e6 + mean_shift
 
@@ -128,8 +125,6 @@ def DDprimspecmoments(Tion):
     C = omega0*(1+delta)
     FWHM2    = C**2*Tion
     variance = FWHM2/(2.35482)**2
-    # keV^2 to MeV^2
-    variance /= 1e6
 
     return mean, variance
 
